@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const debug = require("debug")('dev:mongooseConfig');
 
-mongoose.connect("mongodb://localhost:27017/kaahatabook");
+require('dotenv').config();
+mongoose.connect(process.env.MongoDB_URI);
 
 const db = mongoose.connection;
 
