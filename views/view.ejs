@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .overlay-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="w-full h-screen font-['Helvetica'] dark:bg-gray-800">
+        <% if (data.isEncrypted && query.success !== 'true' && (query.error === 'true' || !query.error)) { %>
+            <div id="overlay" class="overlay backdrop-blur-sm bg-black/20">
+                <div class="overlay-content">
+                    <h3 class="mb-6 text-xl tracking-tight">Enter Encrypt password to view Hisaab</h3>
+                    <form action="/pass/<%= data._id %>" method="post" class="flex gap-5 w-full">
+                        <input type="password" name="pass" class="bg-zinc-300 p-2 rounded-md w-[90%]">
+                        <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-600 rounded-md px-3 py-2 text-white text-align cursor-pointer">
+                    </form>
+                    <% if (query.error === 'true') { %>
+                        <p class="text-red-500 mt-3 text-base">Wrong Password</p>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+            <header class="flex px-10 justify-between py-5">
+                <h1 class="text-2xl tracking-tight dark:text-white">Kaahatabook</h1>
+                <div class="nav flex gap-5">
+                    <a class="tracking-tight dark:text-white" href="/dashboard">Home</a>
+                    <a class="tracking-tight dark:text-white" href="/create">Create New Hisaab</a>
+                </div>
+            </header>
+            <div class="px-10 hisaabs">
+                <div class="flex gap-4">
+                    <% if (data.isEncrypted) { %>
+                        <i
+                            class="ri-git-repository-private-line bg-blue-500 text-white px-1 py-1 no-select rounded-md">Encrypted</i>
+                        <%} else {%>
+                            <i class="ri-check-line bg-green-600 text-white px-2 py-1 no-select rounded-md">Avilable</i>
+                        <%} %>
+                        <% if (!data.isShareable) { %>
+                            <i class="ri-eye-off-line bg-[#dedede] px-2 py-1 rounded-md"></i>
+                        <%} else { %>
+                            <a href="/share/<%= data._id %>" class="hover:bg-zinc-100 px-2 py-1 rounded-md dark:bg-white dark:hover:bg-zinc-200"><i
+                            class="ri-share-line no-select">Share as a link</i></a>
+                        <%} %>
+                        <button><a href="/delete/<%= data._id %>"class="text-white bg-red-500 px-2 py-1 rounded-md hover:bg-red-600">Delete</button></a>
+                        <button><a href="/edit/<%= data._id %>"class="bg-[#FFC97A] text-[#93622E] px-3 py-1 rounded-md hover:bg-[#ffbb5b]">Edit</button></a>
+                </div>
+                <p class="text-[#c3c3c3] no-select text-sm mt-3">created on <%= data.date %>
+                </p>
+                <h3 class="text-2xl font-medium mb-5 mt-5 tracking-tight dark:text-white">
+                    <%= data.title %>
+                </h3>
+                <p class="dark:text-white tracking-tight w-[90%]">
+                    <%= data.content %>
+                </p>
+            </div>
+    </main>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            }
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</body>
+
+</html>

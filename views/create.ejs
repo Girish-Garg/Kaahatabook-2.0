@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="w-full min-h-screen font-['Helvetica'] dark:bg-gray-800">
+        <header class="flex px-10 justify-between py-5">
+            <h1 class="text-2xl tracking-tight dark:text-white">Kaahatabook</h1>
+            <a class="tracking-tight dark:text-white" href="/dashboard">Home</a>
+        </header>
+        <div class="px-10 hisaabs">
+            <h3 class="capitalize text-2xl font-medium mb-5 mt-5 tracking-tight dark:text-white">Create New Hisaab</h3>
+            <form action="/create" method="post">
+                <input name="title" class="text-md px-3 py-2 w-1/2 mb-5 rounded-md bg-zinc-100 dark:bg-gray-300"
+                    type="text" placeholder="Shopping ka hisaab, ghar ka kharch..." required>
+                <textarea name="content"
+                    class="block w-1/2 px-3 py-2 resize-none bg-zinc-100 rounded-md min-h-60 dark:bg-gray-300"
+                    placeholder="write your hisaab." id="txtArea" required></textarea>
+                <div class="flex gap-5 py-3 ">
+                    <input type="checkbox" name="isEncrypted" id="isEncrypted">
+                    <label for="isEncrypted" class="no-select dark:text-white">Encrypt this file</label>
+                    <input type="password" name="encryptPass" placeholder="password" id="pass"
+                        class="hidden text-md px-3 py-1 rounded-md bg-zinc-100 dark:bg-gray-300">
+                </div>
+                <div class="flex gap-5">
+                    <input type="checkbox" name="isShareable" id="isShareable">
+                    <label for="isShareable" class="no-select dark:text-white">Shareable file?</label>
+                    <input type="checkbox" name="isEditable" id="isEditable" class="edit hidden">
+                    <label for="isEditable" class="edit hidden no-select dark:text-white">Edit Permissions</label>
+                </div>
+                <input type="submit" id="botton" class="block mt-5 px-5 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer"
+                    value="Create Hisaab">
+            </form>
+        </div>
+    </main>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            }
+        }
+        let checkbox = document.querySelector("#isEncrypted");
+        let hide = document.querySelector("#pass");
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                hide.classList.remove('hidden');
+            } else {
+                hide.classList.add('hidden');
+            }
+        });
+
+        const checkbox1 = document.querySelector("#isShareable");
+        for (let i = 0; i < 2; i++) {
+            let hide1 = document.getElementsByClassName("edit")[i];
+            checkbox1.addEventListener('change', function () {
+                if (this.checked) {
+                    hide1.classList.remove('hidden');
+                } else {
+                    hide1.classList.add('hidden');
+                }
+            });
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+    </script>
+</body>
+
+
+</html>
