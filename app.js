@@ -8,6 +8,7 @@ const allHisaab = require("./models/allHisaab.model");
 const session = require("express-session");
 const moment = require("moment");
 
+require('dotenv').config();
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -253,4 +254,6 @@ app.post("/pass/:id", async (req, res) => {
 app.post('/share/:id',async(req,res)=>{
     
 })
-app.listen(3000);
+app.listen(process.env.SERVER_PORT, () => {
+  debug("Server is running on port given in .env file");
+})
